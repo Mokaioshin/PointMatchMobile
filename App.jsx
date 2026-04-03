@@ -1,127 +1,105 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+// Contextes et Protections
+// import { AuthProvider } from "./context/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { AuthProvider } from "./context/AuthProvider";
-import RootLayout from "./layouts/RootLayout";
+
+// Écrans
 import Accueil from "./app/(tabs)/Accueil";
-import Dashboard from "./pages/admins/Dashboard";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import Login from "./pages/auth/Login";
-import Profile from "./pages/auth/Profile.jsx";
-import Register from "./pages/auth/Register";
-import ResetPassword from "./pages/auth/ResetPassword";
-import ManageAvailabilities from "./pages/availability/ManageAvailabilities.jsx";
-import MyBookings from "./pages/bookings/MyBookings.jsx";
-import MySessions from "./pages/sessions/MySessions.jsx";
-import SportDetail from "./pages/sports/SportDetail.jsx";
+// import Dashboard from "./pages/admins/Dashboard";
+import Profile from "./app/(tabs)/profile";
+import Availability from "./app/Availability";
+import Planning from "./app/Booking/Planning";
+import MySessions from "./app/Booking/MySessions";
+import SportDetail from "./pages/sports/SportDetail";
 import SportsList from "./pages/sports/SportsList";
+import
 
-// Configuration du Router
-const router = createBrowserRouter([
-  {
-    // 1. LE SUPER PARENT : Il injecte l'Auth dans le contexte du Router
-    element: (
-      <AuthProvider>
-        <Outlet />
-      </AuthProvider>
-    ),
-    // Gestion des erreurs globale
-    errorElement: (
-      <div className="min-h-screen bg-brand-dark flex items-center justify-center p-10 text-center text-white font-black uppercase italic">
-        <h1>Oops! Cette page n'existe pas.</h1>
-      </div>
-    ),
-    children: [
-      {
-        // 2. LE LAYOUT PRINCIPAL : Contient la Navbar et la logique de blocage Coach
-        path: "/",
-        element: <RootLayout />,
-        children: [
-          // --- ACCUEIL ---
-          {
-            index: true,
-            element: (
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            ),
-          },
-
-          // --- AUTHENTIFICATION ---
-          { path: "login", element: <Login /> },
-          { path: "register", element: <Register /> },
-          { path: "forgot-password", element: <ForgotPassword /> },
-          { path: "reset-password", element: <ResetPassword /> },
-
-          // --- ZONE ADMIN ---
-          {
-            path: "admin",
-            element: (
-              <ProtectedRoute roles={["ROLE_ADMIN"]}>
-                <Dashboard />
-              </ProtectedRoute>
-            ),
-          },
-
-          // --- ZONE CLIENT (ÉLÈVE) ---
-          {
-            path: "sports",
-            element: (
-              <ProtectedRoute userTypeRequired="particular">
-                <SportsList />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "sports/:id",
-            element: (
-              <ProtectedRoute userTypeRequired="particular">
-                <SportDetail />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "my-bookings",
-            element: (
-              <ProtectedRoute userTypeRequired="particular">
-                <MyBookings />
-              </ProtectedRoute>
-            ),
-          },
-
-          // --- ZONE PRO (COACH) ---
-          {
-            path: "profile/availabilities",
-            element: (
-              <ProtectedRoute userTypeRequired="professional">
-                <ManageAvailabilities />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: "my-sessions",
-            element: (
-              <ProtectedRoute userTypeRequired="professional">
-                <MySessions />
-              </ProtectedRoute>
-            ),
-          },
-
-          // --- ZONE COMMUNE ---
-          {
-            path: "profile",
-            element: (
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            ),
-          },
-        ],
-      },
-    ],
-  },
-]);
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  // Rendu minimaliste : tout est géré par la config de 'router'
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <NavigationContainer>
+        {/* Le Stack.Navigator remplace createBrowserRouter */}
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerStyle: { backgroundColor: "#121212" }, // Ton style brand-dark
+            headerTintColor: "#fff",
+          }}
+        >
+          {/* --- ACCUEIL --- */}
+          <Stack.Screen name="Home">
+            {(props) => (
+              <ProtectedRoute {...props}>
+                <Accueil />
+              </ProtectedRoute>
+            )}
+          </Stack.Screen>
+
+          {/* --- ZONE ADMIN --- */}
+          <Stack.Screen name="AdminDashboard">
+            {(props) => (
+              <ProtectedRoute {...props} roles={["ROLE_ADMIN"]}>
+                <Dashboard />
+              </ProtectedRoute>
+            )}
+          </Stack.Screen>
+
+          {/* --- ZONE CLIENT (ÉLÈVE) --- */}
+          <Stack.Screen name="Sports">
+            {(props) => (
+              <ProtectedRoute {...props} userTypeRequired="particular">
+                <SportsList />
+              </ProtectedRoute>
+            )}
+          </Stack.Screen>
+
+          <Stack.Screen name="SportDetail">
+            {(props) => (
+              <ProtectedRoute {...props} userTypeRequired="particular">
+                <SportDetail />
+              </ProtectedRoute>
+            )}
+          </Stack.Screen>
+
+          <Stack.Screen name="MyBookings">
+            {(props) => (
+              <ProtectedRoute {...props} userTypeRequired="particular">
+                <MyBookings />
+              </ProtectedRoute>
+            )}
+          </Stack.Screen>
+
+          {/* --- ZONE PRO (COACH) --- */}
+          <Stack.Screen name="ManageAvailabilities">
+            {(props) => (
+              <ProtectedRoute {...props} userTypeRequired="professional">
+                <ManageAvailabilities />
+              </ProtectedRoute>
+            )}
+          </Stack.Screen>
+
+          <Stack.Screen name="MySessions">
+            {(props) => (
+              <ProtectedRoute {...props} userTypeRequired="professional">
+                <MySessions />
+              </ProtectedRoute>
+            )}
+          </Stack.Screen>
+
+          {/* --- ZONE COMMUNE --- */}
+          <Stack.Screen name="Profile">
+            {(props) => (
+              <ProtectedRoute {...props}>
+                <Profile />
+              </ProtectedRoute>
+            )}
+          </Stack.Screen>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
+  );
 }
