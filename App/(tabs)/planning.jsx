@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 
-export default function CoachesScreen() {
+export default function PlanningScreen() {
   return (
     <View
       style={{
@@ -11,7 +11,7 @@ export default function CoachesScreen() {
       }}
     >
       <Text style={{ color: "#ffffff", fontSize: 24, fontWeight: "700" }}>
-        Coachs
+        Planning
       </Text>
     </View>
   );
