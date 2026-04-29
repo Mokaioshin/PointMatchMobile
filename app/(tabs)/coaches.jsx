@@ -1,52 +1,61 @@
 import React from "react";
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
+import { View, Text, ScrollView, SafeAreaView, TouchableOpacity, TextInput } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { styles } from "../../styles/HomeScreen.styles"; 
+import { styles } from "../../styles/coachs-screen.styles";
 
-export default function CoachesScreen() {
-  const sportsData = [
-    { name: 'BASKETBALL', icon: 'basketball' },
-    { name: 'TENNIS', icon: 'tennis-ball' },
-    { name: 'FOOTBALL', icon: 'soccer' },
-    { name: 'NATATION', icon: 'swim' },
-    { name: 'RUGBY', icon: 'rugby' },
-    { name: 'BOXE', icon: 'boxing-glove' },
-  ];
+const SPORTS = [
+  { id: 1, name: "BASKETBALL", icon: "basketball" },
+  { id: 2, name: "TENNIS", icon: "tennis" },
+  { id: 3, name: "FOOTBALL", icon: "soccer" },
+  { id: 4, name: "NATATION", icon: "swim" },
+  { id: 5, name: "RUGBY", icon: "rugby" },
+  { id: 6, name: "BOXE", icon: "boxing-glove" },
+];
 
+export default function CoachsScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-        {/* Header Recherche */}
-        <View style={styles.hero}>
-          <Text style={styles.heroTitle}>TROUVER UN <Text style={styles.heroHighlight}>COACH</Text></Text>
-          <Text style={styles.heroSubtitle}>DOMINEZ LE TERRAIN DANS VOTRE VILLE.</Text>
+        
+        <View style={styles.headerSection}>
+          <Text style={styles.title}>TROUVER UN COACH</Text>
+          <Text style={styles.subtitle}>DOMINEZ LE TERRAIN DANS VOTRE VILLE.</Text>
         </View>
 
-        {/* Barre de Recherche */}
-        <View style={styles.searchSection}>
+        <View style={styles.searchCard}>
           <View style={styles.inputGroup}>
-            <MaterialCommunityIcons name="magnify" color="rgba(255,255,255,0.4)" size={20} />
-            <TextInput placeholder="DISCIPLINE" placeholderTextColor="#555" style={styles.input} />
+            <Text style={styles.label}>DISCIPLINE</Text>
+            <View style={styles.inputWrapper}>
+              <MaterialCommunityIcons name="magnify" size={20} color="#E74C3C" />
+              <TextInput placeholder="Quelle discipline ?" placeholderTextColor="rgba(255,255,255,0.3)" style={styles.inputText} />
+            </View>
           </View>
+
           <View style={styles.inputGroup}>
-            <MaterialCommunityIcons name="map-marker" color="rgba(255,255,255,0.4)" size={20} />
-            <TextInput placeholder="VILLE OU CODE POSTAL" placeholderTextColor="#555" style={styles.input} />
+            <Text style={styles.label}>VILLE OU CODE POSTAL</Text>
+            <View style={styles.inputWrapper}>
+              <MaterialCommunityIcons name="map-marker" size={20} color="#E74C3C" />
+              <TextInput placeholder="Où cherchez-vous ?" placeholderTextColor="rgba(255,255,255,0.3)" style={styles.inputText} />
+            </View>
           </View>
+
           <TouchableOpacity style={styles.searchButton}>
             <Text style={styles.searchButtonText}>RECHERCHER</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Grille de Sports */}
-        <Text style={styles.sectionLabel}>FILTRE RAPIDE</Text>
-        <View style={styles.filterGrid}>
-          {sportsData.map((sport) => (
-            <TouchableOpacity key={sport.name} style={styles.sportCard}>
-              <MaterialCommunityIcons name={sport.icon} size={32} color="#E74C3C" />
-              <Text style={styles.sportText}>{sport.name}</Text>
+        <Text style={styles.filterTitle}>FILTRE RAPIDE</Text>
+        <View style={styles.grid}>
+          {SPORTS.map((sport) => (
+            <TouchableOpacity key={sport.id} style={styles.sportItem}>
+              <View style={styles.iconCircle}>
+                <MaterialCommunityIcons name={sport.icon} size={30} color="white" />
+              </View>
+              <Text style={styles.sportName}>{sport.name}</Text>
             </TouchableOpacity>
           ))}
         </View>
+
       </ScrollView>
     </SafeAreaView>
   );

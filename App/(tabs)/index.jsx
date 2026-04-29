@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from "expo-router";
-import { styles } from "../../styles/HomeScreen.styles"; 
+import { styles } from "../../styles/home-screen.styles"; 
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -31,9 +31,10 @@ export default function HomeScreen() {
         <Text style={styles.sectionLabel}>// PROCHAIN RENDEZ-VOUS</Text>
         <View style={styles.appointmentCard}>
           <Text style={styles.noMatchText}>AUCUN MATCH PRÉVU</Text>
+
           <TouchableOpacity 
             style={styles.findCoachBtn}
-            onPress={() => router.push("/coachs")} 
+            onPress={() => router.push("./coaches")} // NAVIGUE VERS app/(tabs)/coachs.jsx
           >
             <Text style={styles.findCoachText}>TROUVER UN COACH</Text>
           </TouchableOpacity>
