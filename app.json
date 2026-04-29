@@ -5,8 +5,10 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "scheme": "pointmatchmobile",
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "plugins": ["expo-router"]
   }
 }
