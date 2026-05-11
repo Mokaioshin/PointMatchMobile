@@ -1,15 +1,15 @@
 import React from "react";
-import { 
-  Text, 
-  View, 
-  ScrollView, 
-  SafeAreaView, 
-  TouchableOpacity, 
-  StatusBar 
+import {
+  Text,
+  View,
+  ScrollView,
+  SafeAreaView,
+  TouchableOpacity,
+  StatusBar,
 } from "react-native";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { styles } from "../../styles/home-screen.styles"; 
+import { styles } from "../../styles/home-screen.styles";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -18,13 +18,14 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" />
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        
         {/* Header de bienvenue (Ready to Fight) */}
         <View style={styles.welcomeHeader}>
           <Text style={styles.mainTitle}>
             READY TO <Text style={styles.highlightText}>FIGHT?</Text>
           </Text>
-          <Text style={styles.welcomeSubtitle}>CONTENT DE TE REVOIR, JEAN.</Text>
+          <Text style={styles.welcomeSubtitle}>
+            CONTENT DE TE REVOIR, JEAN.
+          </Text>
         </View>
 
         {/* Section Prochain Rendez-vous */}
@@ -32,7 +33,7 @@ export default function HomeScreen() {
         <View style={styles.appointmentCard}>
           <Text style={styles.noMatchText}>AUCUN MATCH PRÉVU</Text>
 
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.findCoachBtn}
             onPress={() => router.push("./coaches")} // NAVIGUE VERS app/(tabs)/coachs.jsx
           >
@@ -56,11 +57,15 @@ export default function HomeScreen() {
               <Text style={styles.statValue}>2</Text>
               <Text style={styles.statDesc}>SPORTS</Text>
             </View>
-            <MaterialCommunityIcons name="shoe-sneaker" size={24} color="#9b59b6" />
+            <MaterialCommunityIcons
+              name="shoe-sneaker"
+              size={24}
+              color="#9b59b6"
+            />
           </View>
 
           {/* Lien vers le profil (Modifier mes infos) */}
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.profileLinkBox}
             onPress={() => router.push("/profil")}
           >
@@ -68,7 +73,6 @@ export default function HomeScreen() {
             <Text style={styles.profileLinkSubtext}>Modifier mes infos →</Text>
           </TouchableOpacity>
         </View>
-
       </ScrollView>
     </SafeAreaView>
   );
